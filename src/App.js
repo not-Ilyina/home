@@ -1,12 +1,19 @@
 import logo from './logo.svg';
 import './App.css';
-import Button from './components/Button';
+
+import { useNavigate } from "react-router-dom"
 
 function App() {
+  const navigate = useNavigate();
   return (
     <div className="App">
       <header className="App-header">
-        <Button />
+        <button onClick={() => navigate('/food/list')}>food</button>
+        <button onClick={() => navigate('/vehicle/list')}>vehicle</button>
+        {/* sub_app */}
+        <button onClick={() => navigate('/noti/list')}>noti</button>
+        <button onClick={() => navigate('/noti/edit')}>noti</button>
+        <button onClick={() => navigate('/shop/list')}>shop</button>
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.

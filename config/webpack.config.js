@@ -220,7 +220,7 @@ module.exports = function (webpackEnv) {
       // webpack uses `publicPath` to determine where the app is being served from.
       // It requires a trailing slash, or the file assets will get an incorrect path.
       // We inferred the "public path" (such as / or /my-project) from homepage.
-      publicPath: paths.publicUrlOrPath,
+        publicPath: 'http://localhost:3000/', // 需要固定输出端口
       // Point sourcemap entries to original disk location (format as URL on Windows)
       devtoolModuleFilenameTemplate: isEnvProduction
         ? info =>
@@ -593,9 +593,17 @@ module.exports = function (webpackEnv) {
       new ModuleFederationPlugin({
         name: 'home',
         filename: 'homeEntry.js',
+        remotes: {
+          // 这里可以利用 url 去动态加载子应用的 入口 chuck 文件？
+          'sub_app': 'sub_app@http://localhost:3001/subEntry.js', // 注册子应用，这个应该是必然存在的
+        },
         exposes: {
           './Button': './src/components/Button/index.jsx',
-        }
+        },
+        shared: {
+          react: { singleton: true },
+          'react-dom': { singleton: true },
+        },
       }),
       // Inlines the webpack runtime script. This script is too small to warrant
       // a network request.
